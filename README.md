@@ -1,4 +1,4 @@
-# AI Twin Closet
+# Dress My Twin by Glam
 
 Glam Hustle Hub's own outfit builder for AI twins and characters.
 
