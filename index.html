@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Twin Closet | Glam Hustle Hub</title>
+<meta name="description" content="Pick your twin, build her outfit on purpose — piece by piece — and get a ready-to-paste prompt that changes ONLY the clothes and keeps her exactly herself.">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1e7fc4">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+:root{
+  --sapphire:#4db2f0; --sapphire-deep:#1e7fc4; --sapphire-light:#a8d8ff;
+  --pearl:#ffffff; --pearl-bg:#f4faff; --silver:#c0c8d0; --ink:#14202b;
+  --grad:linear-gradient(135deg,#a8d8ff 0%,#4db2f0 55%,#1e7fc4 100%);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--pearl-bg);color:var(--ink);max-width:560px;margin:0 auto;padding:0 0 24px}
+header{background:var(--grad);color:#fff;text-align:center;padding:20px 14px 16px;border-radius:0 0 22px 22px;box-shadow:0 4px 14px rgba(30,127,196,.35)}
+header .fly{font-size:30px}
+header h1{font-size:26px;letter-spacing:.5px;text-shadow:0 1px 3px rgba(0,0,0,.25)}
+header p{font-size:13.5px;opacity:.95;margin-top:4px;line-height:1.4}
+.tabs{display:flex;gap:6px;padding:12px 10px 0;position:sticky;top:0;background:var(--pearl-bg);z-index:5;padding-bottom:8px}
+.tab{flex:1;border:2px solid var(--sapphire-light);background:#fff;color:var(--sapphire-deep);border-radius:999px;padding:9px 2px;font-size:12.5px;font-weight:700;cursor:pointer}
+.tab.active{background:var(--grad);color:#fff;border-color:transparent}
+.panel{display:none;padding:6px 14px 4px}
+.panel.active{display:block}
+label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px;color:#0f3a5c}
+select,input[type=text],textarea{width:100%;padding:11px;border:2px solid var(--sapphire-light);border-radius:12px;font-size:15px;background:#fff;color:var(--ink)}
+textarea{resize:vertical;min-height:52px}
+.hint{font-size:12px;color:#5a7186;margin-top:4px;line-height:1.4}
+.row{display:flex;gap:8px}.row>div{flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chip{border:2px solid var(--silver);background:#fff;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer}
+.chip.on{background:var(--grad);color:#fff;border-color:transparent}
+.bigbtn{display:block;width:100%;margin:16px 0 6px;background:var(--grad);color:#fff;border:none;border-radius:14px;padding:15px;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 10px rgba(30,127,196,.35)}
+.ghostbtn{display:block;width:100%;margin:8px 0;background:#fff;color:var(--sapphire-deep);border:2px solid var(--sapphire);border-radius:14px;padding:11px;font-size:14.5px;font-weight:700;cursor:pointer}
+.outbox{background:#fff;border:2px solid var(--sapphire-light);border-radius:14px;padding:12px;margin-top:10px}
+.outbox h3{font-size:14px;color:var(--sapphire-deep);margin-bottom:6px}
+.outbox pre{white-space:pre-wrap;font-family:inherit;font-size:14px;line-height:1.55}
+.copybtn{margin-top:9px;background:var(--ink);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;width:100%}
+.lookitem{background:#fff;border:2px solid var(--sapphire-light);border-radius:12px;padding:10px 12px;margin-top:8px}
+.lookitem b{font-size:14px;color:#0f3a5c}
+.lookitem pre{white-space:pre-wrap;font-family:inherit;font-size:12.5px;line-height:1.45;margin-top:4px;color:#33475c}
+.lookitem button{margin-top:7px;background:var(--sapphire-deep);color:#fff;border:none;border-radius:8px;padding:7px 12px;font-size:12.5px;font-weight:700;cursor:pointer}
+footer{margin:20px 14px 0;text-align:center}
+.footbtns{display:flex;gap:8px}
+.footbtns a{flex:1;text-decoration:none;border-radius:12px;padding:13px 6px;font-size:14px;font-weight:800}
+.f1{background:var(--grad);color:#fff}
+.f2{background:#fff;color:var(--sapphire-deep);border:2px solid var(--sapphire)}
+footer small{display:block;margin-top:10px;color:#5a7186;font-size:11.5px}
+</style>
+</head>
+<body>
+<header>
+  <div class="fly">🦋👗</div>
+  <h1>AI Twin Closet</h1>
+  <p>Stop letting the image tool dress her in whatever it wants.<br>Pick your twin, build the outfit on purpose, and get a prompt that changes <b>only the clothes</b> — she stays exactly herself.</p>
+</header>
+
+<div class="tabs">
+  <button class="tab active" data-t="0">1 · Your Twin</button>
+  <button class="tab" data-t="1">2 · Outfit</button>
+  <button class="tab" data-t="2">3 · Finish</button>
+  <button class="tab" data-t="3">4 · Get the Look</button>
+</div>
+
+<!-- TAB 1 : PICK YOUR TWIN -->
+<section class="panel active" id="p0">
+  <label>Who are we dressing?</label>
+  <select id="twin">
+    <option value="washrag">Wash-Rag Girl — my AI twin look (plus-size, braids in a bun)</option>
+    <option value="ruby">Ruby Carter</option>
+    <option value="pearl">Pearl Carter</option>
+    <option value="renee">Renee — AI After 40 host</option>
+    <option value="simone">Simone Bell — The Prompt Breakdown host</option>
+    <option value="desi">Desi Brooks — The Prompt Breakdown co-host</option>
+    <option value="zuri">Zuri — Willow Creek (kid character, sweet &amp; age-appropriate)</option>
+    <option value="custom">Describe my own twin…</option>
+  </select>
+  <p class="hint" id="twinDesc"></p>
+
+  <div id="customBox" style="display:none">
+    <label>Her name</label>
+    <input type="text" id="cName" placeholder="e.g. My AI Twin">
+    <div class="row">
+      <div><label>Body type</label>
+        <select id="cBody"><option>Plus-size &amp; curvy</option><option>Slim-thick</option><option>Soft curvy</option><option>Athletic</option><option>Petite</option><option>Tall &amp; statuesque</option></select></div>
+      <div><label>Skin tone</label>
+        <select id="cSkin"><option>Deep brown</option><option>Rich medium brown</option><option>Warm caramel brown</option><option>Golden brown</option><option>Light brown</option></select></div>
+    </div>
+    <label>Hair</label>
+    <input type="text" id="cHair" placeholder="e.g. long braids in a high bun">
+    <label>Her vibe</label>
+    <input type="text" id="cVibe" placeholder="e.g. confident, glam, grown-woman energy">
+    <p class="hint">Every twin here is African American by default, and plus-size women are never slimmed down — the prompt locks her body exactly as she is.</p>
+  </div>
+
+  <button class="ghostbtn" id="demoBtn">✨ Load the Brunch Demo — Wash-Rag Girl, dressed right</button>
+  <button class="bigbtn" data-go="1">Next: Build the Outfit →</button>
+</section>
+
+<!-- TAB 2 : BUILD THE OUTFIT -->
+<section class="panel" id="p1">
+  <div class="row">
+    <div><label>Occasion</label>
+      <select id="occasion"><option>Sunday brunch</option><option>Date night</option><option>Church</option><option>Work / business meeting</option><option>Podcast / on camera</option><option>Girls' night out</option><option>Family cookout</option><option>Vacation / resort</option><option>Everyday cute &amp; casual</option><option>Red carpet / gala</option><option>Cozy day at home</option></select></div>
+    <div><label>Vibe</label>
+      <select id="vibe"><option>Cute &amp; polished</option><option>Soft glam</option><option>Boss &amp; tailored</option><option>Fun &amp; flirty</option><option>Classy &amp; elegant</option><option>Relaxed &amp; comfy-cute</option><option>Bold &amp; statement</option><option>Sweet &amp; feminine</option></select></div>
+  </div>
+
+  <label>Top or Dress — the main piece</label>
+  <select id="mainPiece">
+    <option>Flowy floral wrap midi dress</option>
+    <option>Fitted ribbed knit midi dress with a soft scoop neckline</option>
+    <option>Satin slip dress with delicate straps</option>
+    <option>Pretty puff-sleeve blouse tucked in</option>
+    <option>Soft off-the-shoulder top</option>
+    <option>Tailored blazer worn as the top over a camisole</option>
+    <option>Cozy oversized knit sweater, styled neat</option>
+    <option>Denim jacket over a simple fitted tee dress</option>
+    <option>Elegant jumpsuit with a defined waist</option>
+    <option>Two-piece matching set (crop-free, grown-woman cut)</option>
+  </select>
+  <input type="text" id="mainCustom" placeholder="…or type your own main piece — your words win" style="margin-top:6px">
+
+  <label>Bottoms (skip if she's in a dress or jumpsuit)</label>
+  <select id="bottoms">
+    <option>— Dress / jumpsuit, no separate bottoms</option>
+    <option>High-waisted wide-leg trousers</option>
+    <option>Dark-wash straight-leg jeans, no distressing</option>
+    <option>Flowy pleated midi skirt</option>
+    <option>Pencil skirt that hits at the knee</option>
+    <option>Tailored ankle pants</option>
+    <option>Soft palazzo pants</option>
+    <option>Classic Bermuda shorts, neat and pressed</option>
+  </select>
+
+  <label>Shoes</label>
+  <select id="shoes">
+    <option>Strappy block-heel sandals</option>
+    <option>Pointed-toe kitten heels</option>
+    <option>Clean white sneakers, styled cute</option>
+    <option>Woven wedge sandals</option>
+    <option>Ankle boots with a low heel</option>
+    <option>Ballet flats with a bow</option>
+    <option>Gold metallic sandals</option>
+    <option>Pink sneakers (Zuri's signature)</option>
+  </select>
+
+  <label>Outer layer</label>
+  <select id="outer">
+    <option>None — the outfit stands on its own</option>
+    <option>Light cropped denim jacket</option>
+    <option>Soft cream cardigan</option>
+    <option>Tailored blazer</option>
+    <option>Black moto jacket</option>
+    <option>Long duster coat</option>
+    <option>Cozy shawl wrap</option>
+  </select>
+
+  <button class="bigbtn" data-go="2">Next: Colors &amp; Finish →</button>
+</section>
+
+<!-- TAB 3 : FINISH -->
+<section class="panel" id="p2">
+  <label>Colors</label>
+  <select id="colors">
+    <option>Soft peach, cream &amp; gold</option>
+    <option>Royal purple &amp; gold (Ruby's colors)</option>
+    <option>Black &amp; deep gold (Pearl's colors)</option>
+    <option>Emerald &amp; gold (Renee's colors)</option>
+    <option>Coral &amp; navy (Simone's colors)</option>
+    <option>Magenta &amp; silver (Desi's colors)</option>
+    <option>Sapphire blue, pearl white &amp; silver</option>
+    <option>Blush pink, white &amp; rose gold</option>
+    <option>Earth tones — rust, olive &amp; cream</option>
+    <option>All white with gold accents</option>
+    <option>Bold red &amp; black</option>
+  </select>
+  <label>Fabric feel</label>
+  <select id="fabric">
+    <option>Soft, flowy &amp; breathable</option>
+    <option>Satin with a pretty sheen</option>
+    <option>Structured &amp; tailored</option>
+    <option>Cozy knit</option>
+    <option>Light linen</option>
+    <option>Denim, styled up</option>
+    <option>Chiffon &amp; floaty</option>
+  </select>
+
+  <label>Accessories (tap all she'll wear)</label>
+  <div class="chips" id="accChips">
+    <button class="chip">Gold hoop earrings</button>
+    <button class="chip">Layered gold necklaces</button>
+    <button class="chip">Small structured handbag</button>
+    <button class="chip">Woven tote bag</button>
+    <button class="chip">Sunglasses on her head</button>
+    <button class="chip">Delicate bracelet stack</button>
+    <button class="chip">Silk headscarf accent</button>
+    <button class="chip">Statement earrings</button>
+    <button class="chip">Simple watch</button>
+    <button class="chip">Butterfly necklace 🦋</button>
+  </div>
+
+  <div class="row">
+    <div><label>Makeup / glam</label>
+      <select id="makeup"><option>Soft glam — glowing skin, glossy lips</option><option>Natural &amp; fresh-faced</option><option>Full glam — lashes &amp; contour</option><option>No makeup, clean face</option></select></div>
+    <div><label>Scene</label>
+      <select id="scene"><option>Bright café patio, morning light</option><option>Clean studio, soft light</option><option>Cozy living room</option><option>City sidewalk, golden hour</option><option>Podcast studio</option><option>Garden party</option><option>Kitchen, home &amp; happy</option></select></div>
+  </div>
+  <label>Pose / photo style</label>
+  <select id="pose"><option>Full-body, smiling at the camera, confident stance</option><option>Full-body, walking toward the camera, candid laugh</option><option>Seated, relaxed &amp; smiling</option><option>Standing three-quarter view, hand on hip</option></select>
+
+  <label>Anything else? (your words go in word-for-word)</label>
+  <textarea id="notes" placeholder="e.g. keep her braids exactly like the photo"></textarea>
+
+  <button class="ghostbtn" id="randomBtn">🎲 Surprise me — dress her</button>
+  <button class="bigbtn" data-go="3">Get the Look →</button>
+</section>
+
+<!-- TAB 4 : GET THE LOOK -->
+<section class="panel" id="p3">
+  <button class="bigbtn" id="genBtn" style="margin-top:6px">👗 Build My Look</button>
+
+  <div class="outbox"><h3>✨ The outfit — plain and simple</h3><pre id="descOut">Tap “Build My Look” and your outfit description shows up here.</pre>
+  <button class="copybtn" data-copy="descOut">Copy the outfit description</button></div>
+
+  <div class="outbox"><h3>📋 Paste-this prompt — for your image generator</h3><pre id="promptOut">Attach her reference photo, paste this prompt with it, and she comes back as herself — in YOUR outfit, not a random one.</pre>
+  <button class="copybtn" data-copy="promptOut">Copy the outfit prompt</button></div>
+
+  <label>Name this look &amp; save it to her closet</label>
+  <div class="row">
+    <div><input type="text" id="lookName" placeholder="e.g. Sunday Brunch Peach"></div>
+  </div>
+  <button class="ghostbtn" id="saveBtn">💾 Save this look</button>
+  <div id="savedList"></div>
+  <p class="hint">Saved looks live in this page on this device — tap Copy on any one to dress her in it again anytime.</p>
+</section>
+
+<footer>
+  <div class="footbtns">
+    <a class="f1" href="https://glamhustlehub.com/products/the-glam-vault">✨ Join The Glam Vault</a>
+    <a class="f2" href="https://glamhustlehub.com">🛍️ Shop Glam Hustle Hub</a>
+  </div>
+  <small>Made with 💙 by Glam Hustle Hub · AI Twin Closet — her face stays hers, her outfit is YOUR pick.</small>
+</footer>
+
+<script>
+const TWINS={
+ washrag:{name:"Wash-Rag Girl",desc:"a plus-size African American woman with rich brown skin, long braids gathered up in a neat high bun, a warm funny expressive face — a grown woman with real curves, kept exactly as she is"},
+ ruby:{name:"Ruby Carter",desc:"Ruby Carter, 35, an African American woman with deep brown skin, slim-thick and snatched with soft feminine arms, long curls with golden highlights, absolutely gorgeous and glam"},
+ pearl:{name:"Pearl Carter",desc:"Pearl Carter, 42, an African American woman with medium brown skin and light freckles, soft and curvy, very long dark locs, warm protector energy"},
+ renee:{name:"Renee",desc:"Renee, an African American woman, warm and confident, the teacher-host of AI After 40 — polished, friendly, grown-woman presence"},
+ simone:{name:"Simone Bell",desc:"Simone Bell, an African American woman, confident and plain-spoken, the teacher-host of The Prompt Breakdown — sharp, warm, no-nonsense glam"},
+ desi:{name:"Desi Brooks",desc:"Desi Brooks, an African American woman, smart and funny, the co-host of The Prompt Breakdown — bright energy, quick smile, stylish and playful"},
+ zuri:{name:"Zuri",desc:"Zuri, a young African American girl from Willow Creek, sweet and curious, hair in puffs, always in her pink sneakers — outfits always sweet and age-appropriate"}
+};
+const $=id=>document.getElementById(id);
+const tabs=[...document.querySelectorAll('.tab')],panels=[...document.querySelectorAll('.panel')];
+function go(n){tabs.forEach((t,i)=>t.classList.toggle('active',i===n));panels.forEach((p,i)=>p.classList.toggle('active',i===n));window.scrollTo({top:0,behavior:'smooth'});}
+tabs.forEach(t=>t.onclick=()=>go(+t.dataset.t));
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(+b.dataset.go));
+
+function twinText(){
+  const v=$('twin').value;
+  if(v==='custom'){
+    const n=$('cName').value.trim()||'My AI Twin';
+    return {name:n,desc:n+", an African American woman with "+$('cSkin').value.toLowerCase()+" skin, "+$('cBody').value.toLowerCase()+" body type, hair: "+(($('cHair').value.trim()||'styled beautifully'))+", vibe: "+(($('cVibe').value.trim()||'confident and glam'))};
+  }
+  return TWINS[v];
+}
+function updTwinDesc(){
+  const v=$('twin').value;
+  $('customBox').style.display=v==='custom'?'block':'none';
+  $('twinDesc').textContent=v==='custom'?'':('Locked look: '+TWINS[v].desc+'.');
+}
+$('twin').onchange=updTwinDesc; updTwinDesc();
+
+let acc=new Set();
+$('accChips').addEventListener('click',e=>{if(e.target.classList.contains('chip')){e.target.classList.toggle('on');const t=e.target.textContent.trim();e.target.classList.contains('on')?acc.add(t):acc.delete(t);}});
+
+function mainPiece(){return $('mainCustom').value.trim()||$('mainPiece').value;}
+function build(){
+  const t=twinText();
+  const bottoms=$('bottoms').value.startsWith('—')?'':$('bottoms').value;
+  const outer=$('outer').value.startsWith('None')?'':$('outer').value;
+  const accList=[...acc].join(', ');
+  const parts=[mainPiece()];
+  if(bottoms)parts.push(bottoms.charAt(0).toLowerCase()+bottoms.slice(1));
+  parts.push($('shoes').value.charAt(0).toLowerCase()+$('shoes').value.slice(1));
+  if(outer)parts.push(outer.charAt(0).toLowerCase()+outer.slice(1));
+  const outfit=parts.join(', ');
+  const desc=t.name+" — "+$('occasion').value+" ("+$('vibe').value.toLowerCase()+")\n"+
+    "Wearing: "+outfit+".\n"+
+    "Colors: "+$('colors').value+". Fabric: "+$('fabric').value.toLowerCase()+".\n"+
+    (accList?("Accessories: "+accList+".\n"):"")+
+    "Glam: "+$('makeup').value+". Scene: "+$('scene').value+". Pose: "+$('pose').value+"."+
+    ($('notes').value.trim()?("\nNotes: "+$('notes').value.trim()):"");
+  const prompt="Use the attached reference photo of "+t.desc+". Keep her face, skin tone, hair, body type and proportions 100% the same — change ONLY the clothes. Do not slim her down, do not change her age, her features or her hair. Same character, now wearing: "+outfit+", in "+$('colors').value.toLowerCase()+", "+$('fabric').value.toLowerCase()+" fabric"+
+    (accList?(", accessorized with "+accList.toLowerCase()):"")+
+    ". "+$('makeup').value+". Setting: "+$('scene').value.toLowerCase()+" for "+$('occasion').value.toLowerCase()+", "+$('vibe').value.toLowerCase()+" vibe. "+$('pose').value+". Photorealistic, full body visible, exactly five fingers on each visible hand, one consistent face and age throughout."+
+    ($('notes').value.trim()?(" Extra: "+$('notes').value.trim()):"");
+  $('descOut').textContent=desc;
+  $('promptOut').textContent=prompt;
+  return {desc,prompt};
+}
+$('genBtn').onclick=()=>build();
+
+document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText($(b.dataset.copy).textContent);b.textContent='Copied! ✓';setTimeout(()=>b.textContent=b.dataset.copy==='descOut'?'Copy the outfit description':'Copy the outfit prompt',1600);}catch(e){}});
+
+function pickRandom(sel){const o=[...sel.options].filter(x=>!x.value.startsWith('—'));sel.selectedIndex=sel.options.indexOf(o[Math.floor(Math.random()*o.length)]);}
+$('randomBtn').onclick=()=>{['occasion','vibe','mainPiece','bottoms','shoes','outer','colors','fabric','makeup','scene','pose'].forEach(id=>pickRandom($(id)));$('mainCustom').value='';go(3);build();};
+
+$('demoBtn').onclick=()=>{
+  $('twin').value='washrag';updTwinDesc();
+  $('occasion').value='Sunday brunch';$('vibe').value='Cute & polished';
+  $('mainPiece').value='Flowy floral wrap midi dress';$('mainCustom').value='';
+  $('bottoms').selectedIndex=0;$('shoes').value='Strappy block-heel sandals';$('outer').value='Light cropped denim jacket';
+  $('colors').value='Soft peach, cream & gold';$('fabric').value='Soft, flowy & breathable';
+  acc=new Set(['Gold hoop earrings','Small structured handbag','Butterfly necklace 🦋']);
+  document.querySelectorAll('#accChips .chip').forEach(c=>c.classList.toggle('on',acc.has(c.textContent.trim())));
+  $('makeup').value='Soft glam — glowing skin, glossy lips';$('scene').value='Bright café patio, morning light';
+  $('pose').value='Full-body, smiling at the camera, confident stance';$('notes').value='';
+  go(3);build();
+};
+
+/* Saved looks */
+let saved=[];try{saved=JSON.parse(localStorage.getItem('twinClosetLooks')||'[]');}catch(e){saved=[];}
+function renderSaved(){
+  $('savedList').innerHTML=saved.map((s,i)=>'<div class="lookitem"><b>'+s.name.replace(/</g,'&lt;')+'</b><pre>'+s.prompt.replace(/</g,'&lt;')+'</pre><button data-i="'+i+'">Copy this look</button></div>').join('');
+  document.querySelectorAll('.lookitem button').forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText(saved[+b.dataset.i].prompt);b.textContent='Copied! ✓';setTimeout(()=>b.textContent='Copy this look',1600);}catch(e){}});
+}
+$('saveBtn').onclick=()=>{const r=build();const n=$('lookName').value.trim()||(twinText().name+' — '+$('occasion').value);saved.unshift({name:n,prompt:r.prompt});try{localStorage.setItem('twinClosetLooks',JSON.stringify(saved));}catch(e){}renderSaved();$('lookName').value='';};
+renderSaved();
+</script>
+</body>
+</html>
